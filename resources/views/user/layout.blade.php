@@ -389,6 +389,82 @@
 
     </main>
 
+
+    {{-- =========================================================
+        COMMON SUCCESS / ERROR NOTIFICATION
+    ========================================================= --}}
+
+    @if (session('success') || session('error'))
+        @php
+            $isSuccess = session()->has('success');
+            $notificationMessage = session('success') ?? session('error');
+        @endphp
+
+        <div id="userNotification"
+            class="fixed right-5 top-24 z-[200] w-[calc(100%-40px)] max-w-md overflow-hidden rounded-2xl border bg-white shadow-2xl
+        {{ $isSuccess ? 'border-emerald-200' : 'border-red-200' }}">
+
+            <div class="flex items-start gap-4 p-5">
+
+                <div
+                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl
+                {{ $isSuccess ? 'bg-emerald-50' : 'bg-red-50' }}">
+
+                    <i data-lucide="{{ $isSuccess ? 'circle-check' : 'circle-alert' }}"
+                        class="h-6 w-6 {{ $isSuccess ? 'text-emerald-500' : 'text-red-500' }}">
+                    </i>
+                </div>
+
+                <div class="min-w-0 flex-1">
+
+                    <div class="flex items-start justify-between gap-3">
+
+                        <h3 class="text-sm font-bold text-slate-900">
+                            {{ $isSuccess ? 'Success!' : 'Something went wrong!' }}
+                        </h3>
+
+                        <button type="button" onclick="closeUserNotification()"
+                            class="shrink-0 rounded-lg p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+
+                            <i data-lucide="x" class="h-4 w-4"></i>
+                        </button>
+
+                    </div>
+
+                    <p class="mt-1 text-sm leading-5 text-slate-500">
+                        {{ $notificationMessage }}
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="h-1 {{ $isSuccess ? 'bg-emerald-500' : 'bg-red-500' }}">
+                <div id="userNotificationProgress" class="h-full w-full origin-left bg-current opacity-30">
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            window.closeUserNotification = function() {
+                const notification = document.getElementById('userNotification');
+
+                if (!notification) return;
+
+                notification.classList.add('opacity-0', 'translate-x-4');
+
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            };
+
+            setTimeout(() => {
+                closeUserNotification();
+            }, 5000);
+        </script>
+    @endif
+
+
     {{-- =========================================================
     CITY SELECTION MODAL
     ========================================================== --}}
@@ -491,7 +567,7 @@
 
     {{-- =========================================================
     AUTH MODAL
-========================================================== --}}
+    ========================================================== --}}
     <div id="authModal" class="fixed inset-0 z-[110] hidden" aria-hidden="true">
 
         {{-- Backdrop --}}
@@ -514,7 +590,7 @@
 
                 {{-- =================================================
                 LOGIN SECTION
-            ================================================== --}}
+                ================================================== --}}
                 <div id="loginAuthSection">
 
                     {{-- Header --}}
@@ -638,7 +714,7 @@
 
                 {{-- =================================================
                 REGISTER SECTION
-            ================================================== --}}
+                ================================================== --}}
                 <div id="registerAuthSection" class="hidden">
 
                     {{-- Header --}}

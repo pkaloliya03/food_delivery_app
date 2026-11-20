@@ -193,19 +193,21 @@
 
                 <!-- Orders -->
 
-                <a href="#"
-                    class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
+                <a href="{{ route('owner.orders.index') }}"
+                    class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition
+                        {{ request()->routeIs('owner.orders*')
+                            ? 'bg-slate-900 text-white shadow-sm'
+                            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
 
-                    <i data-lucide="shopping-bag" class="h-[18px] w-[18px] text-slate-400 group-hover:text-slate-600">
+                    <i data-lucide="shopping-bag"
+                        class="h-[18px] w-[18px]
+                        {{ request()->routeIs('owner.orders*') ? 'text-white' : 'text-slate-400 group-hover:text-slate-600' }}">
                     </i>
 
                     <span>Orders</span>
 
-                    <!-- Example notification -->
-
-                    <span
-                        class="ml-auto hidden min-w-[20px] items-center justify-center rounded-full bg-orange-100 px-1.5 py-0.5 text-[10px] font-bold text-orange-600">
-                        0
+                    <span class="ml-auto rounded-full bg-orange-100 px-2 py-0.5 text-[10px] font-bold text-orange-600">
+                        {{ auth()->user()->unreadNotifications()->count() }}
                     </span>
 
                 </a>

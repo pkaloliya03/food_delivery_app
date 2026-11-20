@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\OrderController;
 
 // User Controllers
 use App\Http\Controllers\User\AuthController as UserAuthController;
@@ -51,7 +52,6 @@ Route::middleware('auth')
         // Restaurant Management
         Route::resource('restaurants', RestaurantController::class)
             ->only(['index', 'store', 'update', 'destroy']);
-
         Route::post(
             '/restaurants/{id}/toggle-status',
             [RestaurantController::class, 'toggleStatus']
@@ -60,7 +60,6 @@ Route::middleware('auth')
         // Category Management
         Route::resource('categories', CategoryController::class)
             ->only(['index', 'store', 'update', 'destroy']);
-
         Route::post(
             '/categories/{id}/toggle-status',
             [CategoryController::class, 'toggleStatus']
@@ -69,11 +68,14 @@ Route::middleware('auth')
         // Food Item Management
         Route::resource('items', ItemController::class)
             ->only(['index', 'store', 'update', 'destroy']);
-
         Route::post(
             '/items/{id}/toggle-status',
             [ItemController::class, 'toggleStatus']
         )->name('items.toggle-status');
+
+        // Order Management
+        Route::get('/orders', [OrderController::class, 'index'])
+            ->name('orders.index');
     });
 
 
@@ -137,3 +139,6 @@ Route::post('/cart/remove', [UserCartController::class, 'remove'])
 
 Route::get('/checkout', [UserCheckoutController::class, 'index'])
     ->name('checkout');
+
+Route::post('/checkout', [UserCheckoutController::class, 'store'])
+    ->name('checkout.store');

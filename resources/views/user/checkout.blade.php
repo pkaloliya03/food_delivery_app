@@ -62,7 +62,9 @@
 
                         </div>
 
-                        <form id="checkoutForm" class="space-y-5">
+                        <form id="checkoutForm" action="{{ route('checkout.store') }}" method="POST" class="space-y-5">
+
+                            @csrf
 
                             {{-- Customer Name --}}
                             <div>
@@ -80,8 +82,8 @@
                                     Mobile Number
                                 </label>
 
-                                <input type="tel" name="mobile" value="{{ auth()->user()->mobile ?? '' }}"
-                                    placeholder="Enter mobile number" maxlength="10" pattern="[0-9]{10}" required
+                                <input type="tel" name="mobile" placeholder="Enter mobile number" maxlength="10"
+                                    pattern="[0-9]{10}" required
                                     class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100">
                             </div>
 
@@ -104,8 +106,8 @@
                                     </label>
 
                                     <input type="text" name="city" value="{{ session('selected_city_name', '') }}"
-                                        placeholder="Enter city" required
-                                        class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100">
+                                        readonly required
+                                        class="w-full cursor-not-allowed rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 outline-none">
                                 </div>
 
                                 <div>
@@ -138,7 +140,7 @@
                 </div>
 
                 {{-- Order Summary --}}
-                <aside class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <aside class="self-start rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-24">
 
                     <h2 class="text-lg font-extrabold text-slate-900">
                         Order Summary
@@ -223,7 +225,6 @@
                         Place Order
 
                         <i data-lucide="arrow-right" class="h-4 w-4"></i>
-
                     </button>
 
                     <p class="mt-3 text-center text-[11px] leading-5 text-slate-400">
